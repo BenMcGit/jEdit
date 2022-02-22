@@ -30,32 +30,6 @@ func init() {
 	}
 }
 
-
-
-// func TestParseStdinValid(t *testing.T){
-
-// 	_, filename, _, _ := runtime.Caller(1)
-
-//     t.Errorf(path.Dir(filename))
-
-// 	expected := 1
-// 	file, err := os.OpenFile("/Users/bmcadams/development/jedit/testdata/yesterday_reduced.json", os.O_RDONLY, 0644)
-// 	if err != nil {
-// 		t.Errorf("Issue parsing test file. Error: %q", err)
-// 	}
-// 	logs, err := ParseStdin(file)
-// 	if err != nil {
-// 		t.Errorf("Issue in ParseStdin. Error: %q", err)
-// 	}
-// 	if len(logs.Data) != expected {
-// 		t.Errorf("Expected %d logs to be found, recieved %d", expected, len(logs.Data))
-// 	}
-// }
-
-func TestParseStdinInvalid(t *testing.T){
-
-}
-
 func TestParseFiltersValid(t *testing.T){
 	filters, err := ParseFilters(filtersValid)
 	if err != nil {

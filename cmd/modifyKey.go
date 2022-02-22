@@ -20,9 +20,13 @@ on each item in the dataset.
 
 If the key does not exist in the dataset, the original dataset will be returned.
 
+You may use the "filter" flag to modify a key-value pair only if 
+the object matches the filter criteria.
+
 Examples:
   cat example.json | ./jedit modifyKey team club
-  cat example.json | ./jedit modifyKey severity priority`,
+  cat example.json | ./jedit modifyKey severity priority
+  cat example.json | ./jedit modifyKey severity priority --filter "team == team-x"`,
 	Args: cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		logs, err := parser.ParseStdin(os.Stdin)

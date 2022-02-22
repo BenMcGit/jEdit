@@ -22,9 +22,13 @@ value for that key will be retained by default.
 
 To assure data is replaced, use the "replace" flag. 
 
+You may use the "filter" flag to add a key-value pair only if 
+the object matches the filter criteria.
+
 Examples:
   cat example.json | ./jedit addKey priority high
-  cat example.json | ./jedit addKey severity 10 --replace`,
+  cat example.json | ./jedit addKey severity 10 --replace
+  cat example.json | ./jedit addKey severity 10 --filter "team == team-x"`,
 	Args: cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		key, value := args[0], args[1]
