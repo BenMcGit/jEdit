@@ -26,16 +26,33 @@ Examples:
   cat example.json | ./jedit addKey priority high
   cat example.json | ./jedit addKey severity 10 --replace`,
 	Args: cobra.ExactArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
-		logs := parser.ParseStdin(os.Stdin)
+	RunE: func(cmd *cobra.Command, args []string) error {
 		key, value := args[0], args[1]
-		replace, _ := cmd.Flags().GetBool("replace")
-		logs.Add(key, value, !replace)
+		replace, err := cmd.Flags().GetBool("replace")
+		if err != nil {
+			return err
+		}
+
+		filters, err := parser.ParseFilters(filterSlice)
+		if err != nil {
+			return err
+		}
+
+		logs, err := parser.ParseStdin(os.Stdin)
+		if err != nil {
+			return err
+		}
+
+		logs.Add(key, value, !replace, filters)
 		logs.Print()
+		return nil
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(addKeyCmd)
-	addKeyCmd.Flags().BoolP("replace", "r", false, "If key already exists, replace the value with the new value")
+	flags := addKeyCmd.Flags()
+	flags.BoolP("replace", "r", false, "If key already exists, replace the value with the new value")
+	
+	flags.StringSliceVarP(&filterSlice, "filter", "f", []string{}, "Reduce the data set. Acceptable operators: ==, !=, <=, >=, >, <")
 }

@@ -24,13 +24,25 @@ Examples:
   cat example.json | ./jedit modifyKey team club
   cat example.json | ./jedit modifyKey severity priority`,
 	Args: cobra.ExactArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
-		logs := parser.ParseStdin(os.Stdin)
-		logs.Modify(args[0], args[1])
+	RunE: func(cmd *cobra.Command, args []string) error {
+		logs, err := parser.ParseStdin(os.Stdin)
+		if err != nil {
+			return err
+		}
+
+		filters, err := parser.ParseFilters(filterSlice)
+		if err != nil {
+			return err
+		}
+
+		logs.Modify(args[0], args[1], filters)
 		logs.Print()
+		return nil
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(modifyKeyCmd)
+	flags := modifyKeyCmd.Flags()
+	flags.StringSliceVarP(&filterSlice, "filter", "f", []string{}, "Reduce the data set. Acceptable operators: ==, !=, <=, >=, >, <")
 }

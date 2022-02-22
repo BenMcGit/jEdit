@@ -5,15 +5,11 @@ Copyright © 2022 Benjamin McAdams mcadams.benj@gmail.com
 package cmd
 
 import (
-	"fmt"
 	"os"
 
-	"github.com/benmcgit/jedit/pkg/filter"
 	"github.com/benmcgit/jedit/pkg/parser"
 	"github.com/spf13/cobra"
 )
-
-var filterSlice []string
 
 // queryCmd represents the query command
 var queryCmd = &cobra.Command{
@@ -34,21 +30,21 @@ Examples:
   cat example.json | ./jedit query --filter "team != team-x"
   cat example.json | ./jedit query --filter "severity < 5"
   cat example.json | ./jedit query --filter "team == team-x" --filter "severity < 5"`,
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) > 0 {
-			return fmt.Errorf("query command does not accept arguments. Provided arguments: %v", args)
-		}
-		err := filter.ValidateFilters(filterSlice)
+  	Args: cobra.ExactArgs(0),	
+	RunE: func(cmd *cobra.Command, args []string) error {
+		filters, err := parser.ParseFilters(filterSlice)
 		if err != nil {
 			return err
 		}
-		return nil
-	},	
-	Run: func(cmd *cobra.Command, args []string) {
-		logs := parser.ParseStdin(os.Stdin)
-		filters := filter.GetFilters(filterSlice)
+
+		logs, err := parser.ParseStdin(os.Stdin)
+		if err != nil {
+			return err
+		}
+
 		logs.Filter(filters)
 		logs.Print()
+		return nil
 	},
 }
 

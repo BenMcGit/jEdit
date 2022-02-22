@@ -1,4 +1,4 @@
-package filter
+package log
 
 import (
 	"fmt"
@@ -45,8 +45,8 @@ func ValidateFilters(filters []string) error {
 			return err
 		}
 		filterSplit := strings.Split(f, op)
-		if len(filterSplit) != 2 {
-			return fmt.Errorf("Error: Filter not formatted correctly. Please use format 'key == value'. Incorrect provided filter: %s\n", f)
+		if len(filterSplit) != 2 || len(filterSplit[0]) == 0 || len(filterSplit[1]) == 0 {
+			return fmt.Errorf("Filter not formatted correctly. Please use format 'key == value'. Incorrect provided filter: %s\n", f)
 		}
 	}
 	return nil
@@ -61,5 +61,5 @@ func getOperator(filter string) (string, error) {
 			return op, nil
 		}
 	}
-	return "", fmt.Errorf("Error: Operator not found in filter. Incorrect provided filter: %s\n", filter)
+	return "", fmt.Errorf("Operator not found in filter. Incorrect provided filter: %s\n", filter)
 }

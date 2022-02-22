@@ -26,11 +26,20 @@ Examples:
   cat example.json | ./jedit sort team
   cat example.json | ./jedit sort severity --asc`,
 	Args: cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		logs := parser.ParseStdin(os.Stdin)
-		isAsc, _ := cmd.Flags().GetBool("asc")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		logs, err := parser.ParseStdin(os.Stdin)
+		if err != nil {
+			return err
+		}
+
+		isAsc, err := cmd.Flags().GetBool("asc")
+		if err != nil {
+			return err
+		}
+		
 		logs.SortBy(args[0], isAsc)
 		logs.Print()
+		return nil
 	},
 }
 
