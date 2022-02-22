@@ -1,7 +1,6 @@
 package log
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -187,7 +186,6 @@ func TestLogsSortBy(t *testing.T){
 
 	for i,log := range logsAdvanced.Data {
 		if log.Data[key] != pre[i] {
-			fmt.Println(log.Data)
 			t.Errorf("Output %s not equal to expected %s", log.Data[key], pre[i])
 		}
 	}

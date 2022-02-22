@@ -1,7 +1,6 @@
 package parser
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -45,7 +44,6 @@ func TestParseFiltersInvalid(t *testing.T){
 	if err.Error() != expectedError {
 		t.Errorf("Expected ParseFilters to fail with error message '%s', found '%s'", expectedError, err.Error())
 	}
-	fmt.Println(err.Error())
 	if len(filters) != 0 {
 		t.Errorf("Expected %d filters, found %d", 0, len(filters))
 	}
