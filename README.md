@@ -251,7 +251,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Ben McAdams - [@twitter_hbenwmcadamsandle](https://twitter.com/benwmcadams) - mcadams.benj@gmail.com
+Ben McAdams - [@benwmcadams](https://twitter.com/benwmcadams) - mcadams.benj@gmail.com
 
 Project Link: [https://github.com/benmcgit/jedit](https://github.com/benmcgit/jedit)
 
