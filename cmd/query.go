@@ -51,6 +51,6 @@ Examples:
 func init() {
 	rootCmd.AddCommand(queryCmd)
 	flags := queryCmd.Flags()
-	flags.StringSliceVarP(&filterSlice, "filter", "f", []string{}, "Reduce the data set. Acceptable operators: ==, !=, <=, >=, >, <")
+	flags.StringSliceVarP(&filterSlice, "filter", "f", []string{}, "Filter out objects in dataset. Acceptable operators: ==, !=, <=, >=, >, <")
 	cobra.MarkFlagRequired(flags, "filter")
 }

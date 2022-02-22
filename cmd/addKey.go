@@ -57,5 +57,5 @@ func init() {
 	rootCmd.AddCommand(addKeyCmd)
 	flags := addKeyCmd.Flags()
 	flags.BoolP("replace", "r", false, "If key already exists, replace the value with the new value")
-	flags.StringSliceVarP(&filterSlice, "filter", "f", []string{}, "Reduce the data set. Acceptable operators: ==, !=, <=, >=, >, <")
+	flags.StringSliceVarP(&filterSlice, "filter", "f", []string{}, "Apply operation to subset of data. Acceptable operators: ==, !=, <=, >=, >, <")
 }

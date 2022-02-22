@@ -15,7 +15,7 @@ var filterSlice []string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "jedit",
+	Use:   "jedit <command>",
 	Short: "Edits a list of JSON objects in a user provided dataset",
 	Long: `Parsing and editing JSON in bulk can be time-consuming
 and difficult. jEdit aims to help engineers save time by providing them 

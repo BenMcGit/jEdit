@@ -48,5 +48,5 @@ Examples:
 func init() {
 	rootCmd.AddCommand(modifyKeyCmd)
 	flags := modifyKeyCmd.Flags()
-	flags.StringSliceVarP(&filterSlice, "filter", "f", []string{}, "Reduce the data set. Acceptable operators: ==, !=, <=, >=, >, <")
+	flags.StringSliceVarP(&filterSlice, "filter", "f", []string{}, "Apply operation to subset of data. Acceptable operators: ==, !=, <=, >=, >, <")
 }
