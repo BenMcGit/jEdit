@@ -6,17 +6,17 @@ import (
 )
 
 const (
-	Equal = "=="
-	NotEqual = "!="
-	GreaterThen = ">"
+	Equal              = "=="
+	NotEqual           = "!="
+	GreaterThen        = ">"
 	GreaterThenOrEqual = ">="
-	LessThen = "<"
-	LessThenOrEqual = "<="
+	LessThen           = "<"
+	LessThenOrEqual    = "<="
 )
 
 type Filter struct {
-	Key string
-	Value string
+	Key       string
+	Value     string
 	Operation string
 }
 
@@ -25,12 +25,12 @@ func GetFilters(filters []string) []Filter {
 		return []Filter{}
 	}
 	result := make([]Filter, len(filters))
-	for i,f := range filters {
-		op,_ := getOperator(f)
+	for i, f := range filters {
+		op, _ := getOperator(f)
 		filterArr := strings.Split(f, op)
 		filter := Filter{
-			Key:strings.TrimSpace(filterArr[0]),
-			Value: strings.TrimSpace(filterArr[1]),
+			Key:       strings.TrimSpace(filterArr[0]),
+			Value:     strings.TrimSpace(filterArr[1]),
 			Operation: op,
 		}
 		result[i] = filter
@@ -39,7 +39,7 @@ func GetFilters(filters []string) []Filter {
 }
 
 func ValidateFilters(filters []string) error {
-	for _,f := range filters {
+	for _, f := range filters {
 		op, err := getOperator(f)
 		if err != nil {
 			return err
@@ -56,7 +56,7 @@ func getOperator(filter string) (string, error) {
 	// The order matters here. Need to GreaterThenOrEqual and LessThenOrEqual before GreaterThen and LessThen.
 	// If not, a false positive could occur.
 	operators := []string{Equal, NotEqual, GreaterThenOrEqual, LessThenOrEqual, GreaterThen, LessThen}
-	for _,op := range operators {
+	for _, op := range operators {
 		if strings.Contains(filter, op) {
 			return op, nil
 		}

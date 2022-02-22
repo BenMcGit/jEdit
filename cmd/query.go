@@ -30,7 +30,7 @@ Examples:
   cat example.json | ./jedit query --filter "team != team-x"
   cat example.json | ./jedit query --filter "severity < 5"
   cat example.json | ./jedit query --filter "team == team-x" --filter "severity < 5"`,
-  	Args: cobra.ExactArgs(0),	
+	Args: cobra.ExactArgs(0),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		filters, err := parser.ParseFilters(filterSlice)
 		if err != nil {

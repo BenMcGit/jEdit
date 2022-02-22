@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestToString(t *testing.T){
+func TestToString(t *testing.T) {
 	resetTestData()
 	expected := "{\"key1\":\"value1\",\"key2\":\"value2\",\"key3\":\"value3\"}"
 	str, err := logSimple.ToString()
@@ -17,7 +17,7 @@ func TestToString(t *testing.T){
 	}
 }
 
-func TestToBytes(t *testing.T){
+func TestToBytes(t *testing.T) {
 	resetTestData()
 	expected := []byte("{\"key1\":\"value1\",\"key2\":\"value2\",\"key3\":\"value3\"}")
 	b, err := logSimple.ToBytes()
@@ -29,7 +29,7 @@ func TestToBytes(t *testing.T){
 	}
 }
 
-func TestAdd(t *testing.T){
+func TestAdd(t *testing.T) {
 	resetTestData()
 	expected := "{\"key1\":\"value1\",\"key2\":\"value2\",\"key3\":\"value3\",\"key4\":\"value4\"}"
 	logSimple.Add("key4", "value4", false)
@@ -39,7 +39,7 @@ func TestAdd(t *testing.T){
 	}
 }
 
-func TestAddRetain(t *testing.T){
+func TestAddRetain(t *testing.T) {
 	resetTestData()
 	expected := "{\"key1\":\"value1\",\"key2\":\"value2\",\"key3\":\"value3\"}"
 	logSimple.Add("key3", "OriginalValueShouldBeRetained", true)
@@ -49,7 +49,7 @@ func TestAddRetain(t *testing.T){
 	}
 }
 
-func TestRemove(t *testing.T){
+func TestRemove(t *testing.T) {
 	resetTestData()
 	expected := "{\"key1\":\"value1\",\"key2\":\"value2\"}"
 	logSimple.Remove("key3")
@@ -59,7 +59,7 @@ func TestRemove(t *testing.T){
 	}
 }
 
-func TestModify(t *testing.T){
+func TestModify(t *testing.T) {
 	resetTestData()
 	expected := "{\"key1\":\"value1\",\"key2\":\"value2\",\"updated_key3\":\"value3\"}"
 	logSimple.Modify("key3", "updated_key3")
@@ -69,7 +69,7 @@ func TestModify(t *testing.T){
 	}
 }
 
-func TestLogPrint(t *testing.T){
+func TestLogPrint(t *testing.T) {
 	resetTestData()
 	err := logSimple.Print()
 	if err != nil {

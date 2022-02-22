@@ -28,7 +28,7 @@ func init() {
 	}
 }
 
-func TestParseFiltersValid(t *testing.T){
+func TestParseFiltersValid(t *testing.T) {
 	filters, err := ParseFilters(filtersValid)
 	if err != nil {
 		t.Errorf("Expected ParseFilters to succeed. Failed with error: %q", err)
@@ -38,7 +38,7 @@ func TestParseFiltersValid(t *testing.T){
 	}
 }
 
-func TestParseFiltersInvalid(t *testing.T){
+func TestParseFiltersInvalid(t *testing.T) {
 	filters, err := ParseFilters(filtersInvalid)
 	expectedError := "Operator not found in filter. Incorrect provided filter: nooperator\n"
 	if err.Error() != expectedError {

@@ -37,18 +37,6 @@ func  (l *Logs) Filter(filters []Filter) {
 	l.Data = result
 }
 
-// OR filters together
-// for _,f := range filters {
-// 	val, ok := data[f.Key]
-// 	str := fmt.Sprintf("%v", val)
-// 	if ok && str == f.Value {
-// 		//fmt.Println(data)
-// 		a, _ := json.Marshal(data)
-// 		fmt.Println(string(a))
-// 		break
-// 	}
-// }
-
 func (l *Logs) SortBy(key string, ascending bool) {
     data := l.Data
     sort.SliceStable(data, func(i, j int) bool {

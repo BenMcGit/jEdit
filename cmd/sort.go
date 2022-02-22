@@ -36,7 +36,7 @@ Examples:
 		if err != nil {
 			return err
 		}
-		
+
 		logs.SortBy(args[0], isAsc)
 		logs.Print()
 		return nil

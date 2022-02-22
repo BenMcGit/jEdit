@@ -4,7 +4,6 @@ import (
 	"testing"
 )
 
-
 var logSimple Log
 var logsSimple Logs
 var logAdvanced Log
@@ -16,7 +15,7 @@ func init() {
 
 func resetTestData() {
 	// simple test data
-    logSimple = Log{Data: make(map[string]interface{})}
+	logSimple = Log{Data: make(map[string]interface{})}
 	logSimple.Data["key1"] = "value1"
 	logSimple.Data["key2"] = "value2"
 	logSimple.Data["key3"] = "value3"
@@ -46,7 +45,7 @@ func resetTestData() {
 	logsAdvanced.Data = append(logsAdvanced.Data, l3)
 }
 
-func TestIsMatchEquals(t *testing.T){
+func TestIsMatchEquals(t *testing.T) {
 	resetTestData()
 	operator := "=="
 
@@ -67,7 +66,7 @@ func TestIsMatchEquals(t *testing.T){
 	}
 }
 
-func TestIsMatchNotEquals(t *testing.T){
+func TestIsMatchNotEquals(t *testing.T) {
 	resetTestData()
 	operator := "!="
 
@@ -88,11 +87,11 @@ func TestIsMatchNotEquals(t *testing.T){
 	}
 }
 
-func TestIsMatchGreaterThan(t *testing.T){
+func TestIsMatchGreaterThan(t *testing.T) {
 	resetTestData()
 	operators := []string{">=", ">"}
 
-	for _,operator := range operators {
+	for _, operator := range operators {
 		// Positive use case
 		expected := true
 		fil := Filter{Key: "key2", Value: "value1", Operation: operator}
@@ -111,11 +110,11 @@ func TestIsMatchGreaterThan(t *testing.T){
 	}
 }
 
-func TestIsMatchLessThan(t *testing.T){
+func TestIsMatchLessThan(t *testing.T) {
 	resetTestData()
 	operators := []string{"<=", "<"}
 
-	for _,operator := range operators {
+	for _, operator := range operators {
 		// Positive use case
 		expected := true
 		fil := Filter{Key: "key2", Value: "value3", Operation: operator}
@@ -134,9 +133,9 @@ func TestIsMatchLessThan(t *testing.T){
 	}
 }
 
-func TestLogsAdd(t *testing.T){
+func TestLogsAdd(t *testing.T) {
 	resetTestData()
-	k,v := "newKey", "newValue"
+	k, v := "newKey", "newValue"
 
 	logsSimple.Add(k, v, false, nil)
 	if logsSimple.Data[0].Data[k] != v {
@@ -144,9 +143,9 @@ func TestLogsAdd(t *testing.T){
 	}
 }
 
-func TestLogsAddRetain(t *testing.T){
+func TestLogsAddRetain(t *testing.T) {
 	resetTestData()
-	k,v := "key1", "thisshouldnotbepresent"
+	k, v := "key1", "thisshouldnotbepresent"
 
 	expected := "value1"
 	logsSimple.Add(k, v, true, nil)
@@ -155,57 +154,56 @@ func TestLogsAddRetain(t *testing.T){
 	}
 }
 
-func TestLogsDelete(t *testing.T){
+func TestLogsDelete(t *testing.T) {
 	resetTestData()
 	k := "key1"
 
 	logsSimple.Remove(k, nil)
-	if _,ok := logsSimple.Data[0].Data[k]; ok {
+	if _, ok := logsSimple.Data[0].Data[k]; ok {
 		t.Errorf("The key %s was not removed as expected.", k)
 	}
 }
 
-func TestLogsModify(t *testing.T){
+func TestLogsModify(t *testing.T) {
 	resetTestData()
 	k, kNew := "key2", "key_new_2"
 
 	logsSimple.Modify(k, kNew, nil)
-	if _,ok := logsSimple.Data[0].Data[k]; ok {
+	if _, ok := logsSimple.Data[0].Data[k]; ok {
 		t.Errorf("The key %s was not removed as expected. Data: %v", k, logsSimple.Data[0].Data)
 	}
-	if _,ok := logsSimple.Data[0].Data[kNew]; !ok {
+	if _, ok := logsSimple.Data[0].Data[kNew]; !ok {
 		t.Errorf("The key %s was not added as expected. Data: %v", kNew, logsSimple.Data[0].Data)
 	}
 }
 
-
-func TestLogsSortBy(t *testing.T){
+func TestLogsSortBy(t *testing.T) {
 	resetTestData()
 	pre, post, postAsc := []string{"3", "2", "1", "2"}, []string{"1", "2", "2", "3"}, []string{"3", "2", "2", "1"}
 	key := "severity"
 
-	for i,log := range logsAdvanced.Data {
+	for i, log := range logsAdvanced.Data {
 		if log.Data[key] != pre[i] {
 			t.Errorf("Output %s not equal to expected %s", log.Data[key], pre[i])
 		}
 	}
 	// validate sort asc=false
 	logsAdvanced.SortBy(key, false)
-	for i,log := range logsAdvanced.Data {
+	for i, log := range logsAdvanced.Data {
 		if log.Data[key] != post[i] {
 			t.Errorf("Output %s not equal to expected %s", log.Data[key], post[i])
 		}
 	}
 	logsAdvanced.SortBy(key, true)
 	// validate sort asc=true
-	for i,log := range logsAdvanced.Data {
+	for i, log := range logsAdvanced.Data {
 		if log.Data[key] != postAsc[i] {
 			t.Errorf("Output %s not equal to expected %s", log.Data[key], postAsc[i])
 		}
 	}
 }
 
-func TestLogsFilter(t *testing.T){
+func TestLogsFilter(t *testing.T) {
 	resetTestData()
 	preSev, postSev := []string{"3", "2", "1", "2"}, []string{"3", "2"}
 	preTeam, postTeam := []string{"team-b", "team-a", "team-a", "team-b"}, []string{"team-b", "team-b"}
@@ -217,7 +215,7 @@ func TestLogsFilter(t *testing.T){
 	if len(logsAdvanced.Data) != 4 {
 		t.Errorf("Expected %d records. Found %d.", 4, len(logsAdvanced.Data))
 	}
-	for i,log := range logsAdvanced.Data {
+	for i, log := range logsAdvanced.Data {
 		if log.Data[keySev] != preSev[i] {
 			t.Errorf("Output %s not equal to expected %s", log.Data[keySev], preSev[i])
 		}
@@ -229,7 +227,7 @@ func TestLogsFilter(t *testing.T){
 	if len(logsAdvanced.Data) != 2 {
 		t.Errorf("Expected %d records. Found %d.", 2, len(logsAdvanced.Data))
 	}
-	for i,log := range logsAdvanced.Data {
+	for i, log := range logsAdvanced.Data {
 		if log.Data[keySev] != postSev[i] {
 			t.Errorf("Output %s not equal to expected %s", log.Data[keySev], postSev[i])
 		}
@@ -239,7 +237,7 @@ func TestLogsFilter(t *testing.T){
 	}
 }
 
-func TestLogsPrint(t *testing.T){
+func TestLogsPrint(t *testing.T) {
 	resetTestData()
 	err := logsSimple.Print()
 	if err != nil {

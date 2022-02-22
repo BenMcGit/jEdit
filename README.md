@@ -232,6 +232,8 @@ As far as preformance, I believe this can be improved. My current logic is to fi
 
 This project was my first experiance using a tool like [Cobra](https://github.com/spf13/cobra). This tool allowed me to build commands that contain arguments and flags with simplicity. Along with being easy, it saved me a lot of time when it came to generating the jEdit user manual (`./jedit --help`). The next time you build a commandline tool using Golang, I would highly recommend checking out Cobra. 
 
+While I have a lot of experiance with CI tooling, I have not used GitHuib Actions very much. It was really easy to setup for a small project like this. Take a look at the [Actions Tab](https://github.com/BenMcGit/jEdit/actions) to learn more. Right now, my CI pipeline is setup to run after every commit to master. 
+
 For fun, I used a free online service that suggested and generated a logo for jEdit. I was pleasently suprised how easy it was to use so I added those images to the [images](https://github.com/BenMcGit/jEdit/tree/master/images) directory. If given more time I would try to come up with a logo myself, but I appreciate [Hatchful](https://hatchful.shopify.com/) for making my life a little easier and jEdit a little more official :). 
 
 <p align="right">(<a href="#top">back to top</a>)</p>

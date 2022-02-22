@@ -30,15 +30,15 @@ func init() {
 
 }
 
-func TestValidateFiltersPositive(t *testing.T){
+func TestValidateFiltersPositive(t *testing.T) {
 	err := ValidateFilters(filtersValid)
 	if err != nil {
 		t.Errorf("Expected data to be valid but found this error: %q", err)
 	}
 }
 
-func TestValidateFiltersNegative(t *testing.T){
-	for k,v := range filtersInvalidMap {
+func TestValidateFiltersNegative(t *testing.T) {
+	for k, v := range filtersInvalidMap {
 		err := ValidateFilters([]string{k})
 		if err == nil {
 			t.Errorf("Expected data to be invalid but found the error was nil. Provided key: %s", k)
@@ -49,7 +49,7 @@ func TestValidateFiltersNegative(t *testing.T){
 	}
 }
 
-func TestGetOperator(t *testing.T){
+func TestGetOperator(t *testing.T) {
 	expected := []string{"==", "!=", ">", "<", ">=", "<=", "=="}
 	for i := 0; i < len(expected); i++ {
 		op, err := getOperator(filtersValid[i])
@@ -62,20 +62,20 @@ func TestGetOperator(t *testing.T){
 	}
 }
 
-func TestGetFilters(t *testing.T){
+func TestGetFilters(t *testing.T) {
 	filters := GetFilters(filtersValid)
 	expectedKey := []string{"team", "severity", "key", "example", "floatTest", "runeTest", "nospacekey"}
 	expectedValue := []string{"team-x", "4", "88", "ppp", "99.99", "r", "nospacevalue"}
 	expectedOp := []string{"==", "!=", ">", "<", ">=", "<=", "=="}
-	for i,f := range filters {
+	for i, f := range filters {
 		if f.Key != expectedKey[i] || f.Value != expectedValue[i] || f.Operation != expectedOp[i] {
-			t.Errorf("Filter contains unexpected data. Expected key='%s', value='%s', operator='%s'. Recieved %v", 
+			t.Errorf("Filter contains unexpected data. Expected key='%s', value='%s', operator='%s'. Recieved %v",
 				expectedKey[i], expectedValue[i], expectedOp[i], f)
 		}
 	}
 }
 
-func TestGetFiltersEmpty(t *testing.T){
+func TestGetFiltersEmpty(t *testing.T) {
 	filters := GetFilters([]string{})
 	if len(filters) != 0 {
 		t.Errorf("Expected %d filters, found %d", 0, len(filters))
