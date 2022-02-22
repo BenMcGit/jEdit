@@ -203,23 +203,39 @@ cat testdata/yesterday.json | ./jedit modifyKey <KEY> <NEW_KEY_NAME> <FLAGS>
   cat testdata/yesterday.json | ./jedit modifyKey team my_super_awesome_team --filter "team == team-x" --filter "ts > 1642415085"
   ```
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+### Need more help?
+```sh
+cat testdata/yesterday.json | ./jedit --help
+```
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Preformance Improvements
+    - [ ] Use concurrent go-threads to parse stdin
+- [ ] Improved Filter Input Validation
 
 See the [open issues](https://github.com/benmcgit/jedit/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+<!-- TAKEAWAYS -->
+## Project Takeaways
 
+Besides creating a tool that worked functionally, I put a lot of thought into two non-functional requirements - Ease of use, preformace.
+
+To make sure jEdit was easy to use, I went through a few design iterations to determine a way I could use a similar filtering process across different commands. This led me to the design where I use a the same filter flag across the majority of my commands (Ex. --filter "key == value"). I hoped that this would allow for my users to learn the format once, and be able to apply the same logic across the query, addKey, removeKey, and modifyKey commands. The tradoff here is a good amount of validation for each filter. 
+
+As far as preformance, I believe this can be improved. My current logic is to first read in the JSON file and store each record as a type of "Log". After this, I continue to fullfill the customers requested command. There is an opportunity to filter or modify each record as its being read into momory. If preformance became an issue, this is where I would start investigating for potential improvements. 
+
+This project was my first experiance using a tool like [Cobra](https://github.com/spf13/cobra). This tool allowed me to build commands that contain arguments and flags with simplicity. Along with being easy, it saved me a lot of time when it came to generating the jEdit user manual (./jEdit --help). The next time you build a commandline tool using Golang, I would highly recommend checking out Cobra. 
+
+For fun, I used a free online service that suggested and generated a logo for jEdit. I was pleasently suprised how easy it was to use so I added those images to the [images](https://github.com/BenMcGit/jEdit/tree/master/images) directory. If given more time I would try to come up with a logo myself, but I appreciate [Hatchful](https://hatchful.shopify.com/) for making my life a little easier and jEdit a little more official :). 
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -238,14 +254,12 @@ Don't forget to give the project a star! Thanks again!
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- CONTACT -->
@@ -258,30 +272,9 @@ Project Link: [https://github.com/benmcgit/jedit](https://github.com/benmcgit/je
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+* [Hatchful by Shopify](https://hatchful.shopify.com/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/benmcgit/jedit/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/benmcgit/jedit/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/benmcgit/jedit/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/benmcgit/jedit/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/benmcgit/jedit/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
