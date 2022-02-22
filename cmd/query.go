@@ -18,7 +18,7 @@ var filterSlice []string
 // queryCmd represents the query command
 var queryCmd = &cobra.Command{
 	Use:   "query",
-	Short: "Reduce the user provided JSON input by supplying filters",
+	Short: "Isolates object(s) in your dataset",
 	Long: `The query command allows the user to reduce the amount of objects 
 in their JSON data set. 
 

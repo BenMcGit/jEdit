@@ -1,11 +1,10 @@
 /*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+Copyright © 2022 Benjamin McAdams mcadams.benj@gmail.com
 
 */
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/benmcgit/jedit/pkg/parser"
@@ -14,20 +13,17 @@ import (
 
 // modifyKeyCmd represents the modifyKey command
 var modifyKeyCmd = &cobra.Command{
-	Use:   "modifyKey",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "modifyKey <original_key> <new_key>",
+	Short: "Modifies existing keys on object(s) in your dataset",
+	Long: `Replaces the name of an existing key with a new name
+on each item in the dataset.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) != 2 {
-			return fmt.Errorf("modifyKey command requires 2 arguments. Provided arguments: %v", args)
-		}
-		return nil
-	},
+If the key does not exist in the dataset, the original dataset will be returned.
+
+Examples:
+  cat example.json | ./jedit modifyKey team club
+  cat example.json | ./jedit modifyKey severity priority`,
+	Args: cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		logs := parser.ParseStdin(os.Stdin)
 		logs.Modify(args[0], args[1])
@@ -37,14 +33,4 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(modifyKeyCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// modifyKeyCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// modifyKeyCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

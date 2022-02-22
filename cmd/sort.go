@@ -5,7 +5,6 @@ Copyright © 2022 Benjamin McAdams mcadams.benj@gmail.com
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/benmcgit/jedit/pkg/parser"
@@ -14,20 +13,19 @@ import (
 
 // sortCmd represents the sort command
 var sortCmd = &cobra.Command{
-	Use:   "sort",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "sort <key>",
+	Short: "Sorts objects in your dataset base on a user-provided key",
+	Long: `Sorts a json dataset in ascending or decending order based on a user provided key.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) != 1 {
-			return fmt.Errorf("sort command only accepts 1 argument. Provided arguments: %v", args)
-		}
-		return nil
-	},
+If the user-provided key is not present in the dataset, the original dataset will be returned.
+
+By default, the dataset will be returned in descending order. To return the 
+dataset in ascending order, use the flag "asc".
+
+Examples:
+  cat example.json | ./jedit sort team
+  cat example.json | ./jedit sort severity --asc`,
+	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		logs := parser.ParseStdin(os.Stdin)
 		isAsc, _ := cmd.Flags().GetBool("asc")

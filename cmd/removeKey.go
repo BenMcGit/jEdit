@@ -5,7 +5,6 @@ Copyright © 2022 Benjamin McAdams mcadams.benj@gmail.com
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/benmcgit/jedit/pkg/parser"
@@ -14,25 +13,22 @@ import (
 
 // removeKeyCmd represents the removeKey command
 var removeKeyCmd = &cobra.Command{
-	Use:   "removeKey",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "removeKey <key>",
+	Short: "Removes existing keys on object(s) in your dataset",
+	Long: `Removes a key-value pair to each object in the provided dataset.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-Args: func(cmd *cobra.Command, args []string) error {
-	if len(args) != 1 {
-		return fmt.Errorf("removeKey command requires 1 argument. Provided arguments: %v", args)
-	}
-	return nil
-},
-Run: func(cmd *cobra.Command, args []string) {
-	logs := parser.ParseStdin(os.Stdin)
-	logs.Remove(args[0])
-	logs.Print()
-},
+If the key under consideration for removal is not found on an object
+the object will be returned without modification. 
+
+Examples:
+  cat example.json | ./jedit removeKey team
+  cat example.json | ./jedit removeKey severity`,
+	Args: cobra.ExactArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		logs := parser.ParseStdin(os.Stdin)
+		logs.Remove(args[0])
+		logs.Print()
+	},
 }
 
 func init() {
