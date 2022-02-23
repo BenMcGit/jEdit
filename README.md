@@ -211,9 +211,25 @@ cat testdata/yesterday.json | ./jedit --help
 <!-- ROADMAP -->
 ## Roadmap
 
+### Nice-to-haves
 - [ ] Preformance Improvements
     - [ ] Use concurrent go-threads to parse stdin
 - [ ] Allow user to OR filters together (opposed to ANDing them together)
+
+### Required for first release
+- [ ] Consume input stream from
+    - [x] a terminal stdin
+    - [ ] a specified input source and output destination, such as reading from the network
+- [ ] Output data to
+    - [x] a terminal stdout
+    - [ ] a specified output destination, such as outputting in a file
+- [x] Provide a way to compare values (less or greater than, longer or shorter than, …) rather than just equality or difference. 
+- [x] Provide a way to apply operations only on objects only if they match a given predicate.
+- [x] Rejecting an object based on the value of a specific field. 
+- [x] Retaining an object only if it has a field with a specific value. 
+- [x] Adding a key value pair on an object
+- [x] Prefixing a key with a string
+- [x] Provide a proper README.md
 
 See the [open issues](https://github.com/benmcgit/jedit/issues) for a full list of proposed features (and known issues).
 
