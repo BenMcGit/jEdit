@@ -29,7 +29,7 @@ Examples:
   cat example.json | ./jedit modifyKey severity priority --filter "team == team-x"`,
 	Args: cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		logs, err := jedit.ParseJson(os.Stdin)
+		logs, err := jedit.ParseFile(os.Stdin.Name())
 		if err != nil {
 			return err
 		}

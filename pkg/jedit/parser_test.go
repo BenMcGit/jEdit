@@ -1,17 +1,12 @@
 package jedit
 
 import (
-	"log"
-	"os"
 	"testing"
-	"errors"
 )
 
 var filtersInvalid []string
-var fileName string
 
 func init() {
-	fileName = "example.json"
 	filtersValid = []string{
 		"team == team-x",
 		"severity != 4",
@@ -30,59 +25,6 @@ func init() {
 		"runeTest <= r",
 		"nospacekey==nospacevalue",
 	}
-}
-
-func cleanUp() {
-	// Remove the testable json file
-	err := os.Remove(fileName)
-	if err != nil && errors.Is(err, os.ErrNotExist) {
-		log.Fatal(err)
-	}
-}
-
-func createFile() (*os.File) {
-    // check if file exists
-    var _, err = os.Stat(fileName)
-
-    // create file if not exists
-    if os.IsNotExist(err) {
-        var file, err = os.Create(fileName)
-        if isError(err) {
-            log.Fatal(err)
-        }
-        defer file.Close()
-		// Add text to Json file
-		json := []string{
-			"{\"team\":\"team-a\",\"severity\":\"1\"}\n",
-			"{\"team\":\"team-a\",\"severity\":\"2\"}\n",
-			"{\"team\":\"team-b\",\"severity\":\"2\"}\n",
-			"{\"team\":\"team-b\",\"severity\":\"2\"}\n",
-		}
-		for _,v := range json {
-			_, err := file.WriteString(v)
-			if err != nil {
-				log.Fatal(err)
-			}
-		}
-		return file
-    }
-
-	return nil
-}
-
-func deleteFile() {
-    // delete file
-    var err = os.Remove(fileName)
-    if isError(err) {
-        return
-    }
-}
-
-func isError(err error) bool {
-    if err != nil {
-        log.Fatal(err)
-    }
-    return (err != nil)
 }
 
 func TestParseFiltersValid(t *testing.T) {
@@ -106,11 +48,24 @@ func TestParseFiltersInvalid(t *testing.T) {
 	}
 }
 
-func TestParseJson(t *testing.T) {
-	exampleFile := createFile()
-	_, err := ParseJson(exampleFile)
+func TestParseFileSmall(t *testing.T) {
+	expected := 22
+	logs, err := ParseFile("../../testdata/yesterday_reduced.json")
 	if err != nil {
-		t.Errorf("ParseJson returned an error unexpectedly: %q", err)
+		t.Errorf("ParseFile returned an error unexpectedly: %q", err)
 	}
-	deleteFile()
+	if len(logs.Data) != expected {
+		t.Errorf("Expected %d logs found, recieved %d", expected, len(logs.Data))
+	}
+}
+
+func TestParseFileLarge(t *testing.T) {
+	expected := 14520
+	logs, err := ParseFile("../../testdata/yesterday.json")
+	if err != nil {
+		t.Errorf("ParseFile returned an error unexpectedly: %q", err)
+	}
+	if len(logs.Data) != expected {
+		t.Errorf("Expected %d logs found, recieved %d", expected, len(logs.Data))
+	}
 }

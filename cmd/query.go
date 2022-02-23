@@ -37,7 +37,7 @@ Examples:
 			return err
 		}
 
-		logs, err := jedit.ParseJson(os.Stdin)
+		logs, err := jedit.ParseFile(os.Stdin.Name())
 		if err != nil {
 			return err
 		}

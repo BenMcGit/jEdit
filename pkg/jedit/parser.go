@@ -2,25 +2,36 @@ package jedit
 
 import (
 	"encoding/json"
-	"io"
 	"os"
+	"log"
+	"bufio"
 )
 
-func ParseJson(stdin *os.File) (Logs, error) {
+func ParseFile(fileName string) (Logs, error) {
 	logs := []Log{}
-	decoder := json.NewDecoder(os.Stdin)
-	decoder.UseNumber()
-	for {
-		data := make(map[string]interface{})
-		err := decoder.Decode(&data)
-		if err == io.EOF {
-			break
-		} else if err != nil {
-			return Logs{}, err
-		} else {
-			logs = append(logs, Log{Data: data})
-		}
+
+	// open file
+	f, err := os.Open(fileName)
+	if err != nil {
+		return Logs{}, err
 	}
+
+	// close the file at the end of the function call
+	defer f.Close()
+
+	// read the file line by line using scanner
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		var jsonMap map[string]interface{}
+		json.Unmarshal([]byte(scanner.Text()), &jsonMap)
+		logs = append(logs, Log{Data: jsonMap})
+	}
+
+	// assure there were no errors while scanning file
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
 	return Logs{Data: logs}, nil
 }
 
