@@ -27,7 +27,7 @@ Examples:
   cat example.json | ./jedit sort severity --asc`,
 	Args: cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		logs, err := jedit.ParseStdin(os.Stdin)
+		logs, err := jedit.ParseJson(os.Stdin)
 		if err != nil {
 			return err
 		}

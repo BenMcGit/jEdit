@@ -30,7 +30,7 @@ Examples:
 	Args: cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		key := args[0]
-		logs, err := jedit.ParseStdin(os.Stdin)
+		logs, err := jedit.ParseJson(os.Stdin)
 		if err != nil {
 			return err
 		}

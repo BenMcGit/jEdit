@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func ParseStdin(stdin *os.File) (Logs, error) {
+func ParseJson(stdin *os.File) (Logs, error) {
 	logs := []Log{}
 	decoder := json.NewDecoder(os.Stdin)
 	decoder.UseNumber()
