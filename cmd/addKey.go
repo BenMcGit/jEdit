@@ -7,7 +7,7 @@ package cmd
 import (
 	"os"
 
-	"github.com/benmcgit/jedit/pkg/parser"
+	"github.com/benmcgit/jedit/pkg/jedit"
 	"github.com/spf13/cobra"
 )
 
@@ -37,12 +37,12 @@ Examples:
 			return err
 		}
 
-		filters, err := parser.ParseFilters(filterSlice)
+		filters, err := jedit.ParseFilters(filterSlice)
 		if err != nil {
 			return err
 		}
 
-		logs, err := parser.ParseStdin(os.Stdin)
+		logs, err := jedit.ParseStdin(os.Stdin)
 		if err != nil {
 			return err
 		}

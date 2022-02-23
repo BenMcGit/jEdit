@@ -7,7 +7,7 @@ package cmd
 import (
 	"os"
 
-	"github.com/benmcgit/jedit/pkg/parser"
+	"github.com/benmcgit/jedit/pkg/jedit"
 	"github.com/spf13/cobra"
 )
 
@@ -32,12 +32,12 @@ Examples:
   cat example.json | ./jedit query --filter "team == team-x" --filter "severity < 5"`,
 	Args: cobra.ExactArgs(0),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		filters, err := parser.ParseFilters(filterSlice)
+		filters, err := jedit.ParseFilters(filterSlice)
 		if err != nil {
 			return err
 		}
 
-		logs, err := parser.ParseStdin(os.Stdin)
+		logs, err := jedit.ParseStdin(os.Stdin)
 		if err != nil {
 			return err
 		}

@@ -7,7 +7,7 @@ package cmd
 import (
 	"os"
 
-	"github.com/benmcgit/jedit/pkg/parser"
+	"github.com/benmcgit/jedit/pkg/jedit"
 	"github.com/spf13/cobra"
 )
 
@@ -27,7 +27,7 @@ Examples:
   cat example.json | ./jedit sort severity --asc`,
 	Args: cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		logs, err := parser.ParseStdin(os.Stdin)
+		logs, err := jedit.ParseStdin(os.Stdin)
 		if err != nil {
 			return err
 		}
