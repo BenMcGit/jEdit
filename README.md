@@ -203,6 +203,27 @@ cat testdata/yesterday.json | ./jedit modifyKey <KEY> <NEW_KEY_NAME> <FLAGS>
 ### Need more help?
 ```sh
 cat testdata/yesterday.json | ./jedit --help
+
+Parsing and editing JSON in bulk can be time-consuming
+and difficult. jEdit aims to help engineers save time by providing them 
+a tool that can reduce, filter, and modify their existing JSON dataset.
+
+Usage:
+  jedit [command]
+
+Available Commands:
+  addKey      Adds an additional key to object(s) in your dataset
+  completion  Generate the autocompletion script for the specified shell
+  help        Help about any command
+  modifyKey   Modifies existing keys on object(s) in your dataset
+  query       Isolates object(s) in your dataset
+  removeKey   Removes existing keys on object(s) in your dataset
+  sort        Sorts objects in your dataset base on a user-provided key
+
+Flags:
+  -h, --help   help for jedit
+
+Use "jedit [command] --help" for more information about a command.
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
