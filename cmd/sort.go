@@ -5,8 +5,6 @@ Copyright © 2022 Benjamin McAdams mcadams.benj@gmail.com
 package cmd
 
 import (
-	"os"
-
 	"github.com/benmcgit/jedit/pkg/jedit"
 	"github.com/spf13/cobra"
 )
@@ -27,7 +25,12 @@ Examples:
   cat example.json | ./jedit sort severity --asc`,
 	Args: cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		logs, err := jedit.ParseFile(os.Stdin.Name())
+		inputFilePath, err := getInputFilePath()
+		if err != nil {
+			return err
+		}
+
+		logs, err := jedit.ParseFile(inputFilePath)
 		if err != nil {
 			return err
 		}
@@ -38,8 +41,7 @@ Examples:
 		}
 
 		logs.SortBy(args[0], isAsc)
-		logs.Print()
-		return nil
+		return writeToOutput(logs)
 	},
 }
 

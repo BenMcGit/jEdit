@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/benmcgit/jedit/pkg/jedit"
 	"github.com/spf13/cobra"
 )
 
@@ -51,4 +52,17 @@ func getInputFilePath() (string,error) {
 		return os.Stdin.Name(), nil
 	}
 	return "", fmt.Errorf("No input file found. Please provide input using Stdin or the --input flag.")
+}
+
+func writeToOutput(logs jedit.Logs) error {
+	output, err := rootCmd.Flags().GetString("output")
+	if err != nil {
+		return err
+	} else if output != "" {
+		// write to specified output file if defined
+		return logs.WriteToFile(output)
+	}
+	// if not output file is defined print to stdout
+	logs.Print()
+	return nil
 }

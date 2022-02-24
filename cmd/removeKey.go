@@ -44,8 +44,7 @@ Examples:
 		}
 
 		logs.Remove(key, filters)
-		logs.Print()
-		return nil
+		return writeToOutput(logs)
 	},
 }
 

@@ -43,8 +43,7 @@ Examples:
 		}
 
 		logs.Modify(args[0], args[1], filters)
-		logs.Print()
-		return nil
+		return writeToOutput(logs)
 	},
 }
 

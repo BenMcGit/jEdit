@@ -1,6 +1,8 @@
 package jedit
 
 import (
+	"os"
+	"io"
 	"fmt"
 	"sort"
 )
@@ -24,6 +26,27 @@ func (l *Logs) Print() error {
 		}
 	}
 	return nil
+}
+
+func (l *Logs) WriteToFile(fileName string) error {
+    file, err := os.Create(fileName)
+    if err != nil {
+        return err
+    }
+	// close the file reguardless if an error occurs below
+    defer file.Close()
+
+	for _,log := range l.Data {
+		str, err := log.toString()
+		if err != nil {
+			return err
+		}
+		_, err = io.WriteString(file, str + "\n")
+		if err != nil {
+			return err
+		}
+	}
+    return file.Sync()
 }
 
 func  (l *Logs) Filter(filters []Filter) {
@@ -77,7 +100,8 @@ func (l *Logs) Modify(key string, newKey string, filters []Filter) {
 func isMatch(log Log, filter Filter) bool {
 	val, ok := log.Data[filter.Key]
 	
-	// cast value to string for all instances.. assures numeric types can be compared
+	// cast value to string for all instances
+	// assures numeric types can be compared
 	str := fmt.Sprintf("%v", val)
 
 	var result bool

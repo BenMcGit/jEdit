@@ -44,15 +44,14 @@ Examples:
 		if err != nil {
 			return err
 		}
-		
+
 		logs, err := jedit.ParseFile(inputFilePath)
 		if err != nil {
 			return err
 		}
 
 		logs.Add(key, value, !replace, filters)
-		logs.Print()
-		return nil
+		return writeToOutput(logs)
 	},
 }
 

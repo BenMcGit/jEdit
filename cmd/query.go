@@ -46,8 +46,7 @@ Examples:
 		}
 
 		logs.Filter(filters)
-		logs.Print()
-		return nil
+		return writeToOutput(logs)
 	},
 }
 

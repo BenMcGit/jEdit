@@ -214,6 +214,25 @@ cat testdata/yesterday.json | ./jedit modifyKey <KEY> <NEW_KEY_NAME> <FLAGS>
   cat testdata/yesterday.json | ./jedit modifyKey team my_super_awesome_team --filter "team == team-x" --filter "ts > 1642415085"
   ```
 
+#### Providing input
+
+There are two ways a user can provide input. 
+1. Piping via Stdin
+  ```sh
+  cat testdata/yesterday.json | ./jedit modifyKey ...
+  ```
+2. Using the `--input` flag
+  ```sh
+  ./jedit modifyKey ... --input testdata/yesterday.json
+  ```
+
+#### Defining output location
+
+By default, jEdit will print its output to Stdout. Optianlly you can use the `--output` to create a new file and write to it. 
+  ```sh
+  cat testdata/yesterday.json | ./jedit modifyKey ... --output my_output_file.json
+  ```
+
 #### Need more help?
 ```sh
 cat testdata/yesterday.json | ./jedit --help
@@ -230,12 +249,14 @@ Available Commands:
   completion  Generate the autocompletion script for the specified shell
   help        Help about any command
   modifyKey   Modifies existing keys on object(s) in your dataset
-  query       Isolates object(s) in your dataset
+  query       Reduces the amount of object(s) in your dataset
   removeKey   Removes existing keys on object(s) in your dataset
   sort        Sorts objects in your dataset base on a user-provided key
 
 Flags:
-  -h, --help   help for jedit
+  -h, --help            help for jedit
+      --input string    Path to JSON file to be parsed
+      --output string   Path to file to write resulting JSON to. If not existent, it will be created.
 
 Use "jedit [command] --help" for more information about a command.
 ```
