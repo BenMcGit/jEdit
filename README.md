@@ -13,7 +13,7 @@
   <p align="center">
     Process, filter, and modify JSON in seconds
     <br />
-    <a href="https://github.com/benmcgit/jedit"><strong>Explore the docs »</strong></a>
+    <a href="https://pkg.go.dev/github.com/benmcgit/jedit"><strong>Explore the docs »</strong></a>
     <br />
     <a href="https://github.com/benmcgit/jedit/issues">Report Bug</a>
     ·
