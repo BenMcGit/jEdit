@@ -312,12 +312,12 @@ func main() {
 - [ ] Allow user to OR filters together (opposed to ANDing them together)
 
 ### Required for first release
-- [ ] Consume input stream from
+- [x] Consume input stream from
     - [x] a terminal stdin
-    - [ ] a specified input source
-- [ ] Output data to
+    - [x] a specified input source
+- [x] Output data to
     - [x] a terminal stdout
-    - [ ] a specified output destination
+    - [x] a specified output destination
 - [x] Provide a way to compare values (less or greater than, longer or shorter than, …) rather than just equality or difference. 
 - [x] Provide a way to apply operations only on objects only if they match a given predicate.
 - [x] Rejecting an object based on the value of a specific field. 
