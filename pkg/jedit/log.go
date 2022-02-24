@@ -9,8 +9,8 @@ type Log struct {
 	Data map[string]interface{}
 }
 
-func (l *Log) Print() error {
-	str, err := l.ToString()
+func (l *Log) print() error {
+	str, err := l.toString()
 	if err != nil {
 		return err
 	}
@@ -18,7 +18,7 @@ func (l *Log) Print() error {
 	return nil
 }
 
-func (l *Log) ToString() (string, error) {
+func (l *Log) toString() (string, error) {
 	a, err := json.Marshal(l.Data)
 	if err != nil {
 		return "", err
@@ -26,7 +26,7 @@ func (l *Log) ToString() (string, error) {
 	return string(a), nil
 }
 
-func (l *Log) ToBytes() ([]byte, error) {
+func (l *Log) toBytes() ([]byte, error) {
 	a, err := json.Marshal(l.Data)
 	if err != nil {
 		return []byte{}, err
@@ -34,7 +34,7 @@ func (l *Log) ToBytes() ([]byte, error) {
 	return a, nil
 }
 
-func (l *Log) Add(key string, value string, retain bool) {
+func (l *Log) add(key string, value string, retain bool) {
 	data := l.Data
 	if v, ok := data[key]; ok && retain {
 		data[key] = v
@@ -43,12 +43,12 @@ func (l *Log) Add(key string, value string, retain bool) {
 	}
 }
 
-func (l *Log) Remove(key string) {
+func (l *Log) remove(key string) {
 	data := l.Data
 	delete(data, key)
 }
 
-func (l *Log) Modify(key string, newKey string) {
+func (l *Log) modify(key string, newKey string) {
 	data := l.Data
 	if v, ok := data[key]; ok {
 		data[newKey] = v

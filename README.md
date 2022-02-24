@@ -87,13 +87,19 @@ Use the following instructions to learn how to clone the jEdit repository and to
    ```sh
    git clone https://github.com/benmcgit/jedit.git
    ```
-2. Build jEdit binary
+2. Build jEdit binary (in root directory)
    ```sh
-   go build
+   ./scripts/build.sh
    ```
 3. Validate the binary is available
    ```sh
    ./jedit --help
+   ```
+4. Validate the binary is working (this should result in non-error output in your terminal). This script covers the following scenario:
+   * Add a new key value pair to only to records where "team" equal to "team-x"
+   * New key = "incident_id", New value = "6502" 
+   ```sh
+   ./scripts/test.sh
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -105,9 +111,17 @@ Use the following instructions to learn how to clone the jEdit repository and to
 
 Now that jEdit is installed, lets try it out! 
 
+There are two ways jEdit can be consumed
+1. Command Line
+2. Public API
+
+See below examples of how to use each below.
+
+### Command Line
+
 There is test data that we can execute these examples with. This test data is located in the [testdata](https://github.com/BenMcGit/jEdit/tree/master/testdata) directory.
 
-### Reducing
+#### Reducing
 ```sh
 cat testdata/yesterday.json | ./jedit query <FLAGS>
 ```
@@ -133,7 +147,7 @@ cat testdata/yesterday.json | ./jedit query <FLAGS>
   cat testdata/yesterday.json | ./jedit query --filter "thisdoesnotexist == team-x"
   ```
 
-### Sorting
+#### Sorting
 ```sh
 cat testdata/yesterday.json | ./jedit sort <KEY> <FLAGS>
 ```
@@ -151,7 +165,7 @@ cat testdata/yesterday.json | ./jedit sort <KEY> <FLAGS>
   cat testdata/yesterday.json | ./jedit sort team
   ```
 
-### Adding a new key-value pair
+#### Adding a new key-value pair
 ```sh
 cat testdata/yesterday.json | ./jedit addKey <NEW_KEY> <NEW_VALUE> <FLAGS>
 ```
@@ -172,7 +186,7 @@ cat testdata/yesterday.json | ./jedit addKey <NEW_KEY> <NEW_VALUE> <FLAGS>
   ```sh
   cat testdata/yesterday.json | ./jedit addKey severity 10
   ```
-### Removing a key-value pair
+#### Removing a key-value pair
 ```sh
 cat testdata/yesterday.json | ./jedit removeKey <KEY> <FLAGS>
 ```
@@ -186,7 +200,7 @@ cat testdata/yesterday.json | ./jedit removeKey <KEY> <FLAGS>
   cat testdata/yesterday.json | ./jedit removeKey team --filter "team == team-a"
   ```
 
-### Modifying a key
+#### Modifying a key
 ```sh
 cat testdata/yesterday.json | ./jedit modifyKey <KEY> <NEW_KEY_NAME> <FLAGS>
 ```
@@ -200,7 +214,7 @@ cat testdata/yesterday.json | ./jedit modifyKey <KEY> <NEW_KEY_NAME> <FLAGS>
   cat testdata/yesterday.json | ./jedit modifyKey team my_super_awesome_team --filter "team == team-x" --filter "ts > 1642415085"
   ```
 
-### Need more help?
+#### Need more help?
 ```sh
 cat testdata/yesterday.json | ./jedit --help
 
@@ -226,6 +240,48 @@ Flags:
 Use "jedit [command] --help" for more information about a command.
 ```
 
+### Public API
+
+Please see the documentation for how to use jedit within your golang project [here](https://pkg.go.dev/github.com/benmcgit/jedit). 
+
+Here is an example of how it can be used
+
+IMPORTANT: To use jEdit it needs to be consumed as a go module (required after go 1.17).
+
+You can create a go-module by running `go mod init <YOUR_MODULE_NAME>` (Please be sure to run `go get -v` to update your dependencies).
+
+```go
+package main
+
+import (
+	"log"
+
+	"github.com/benmcgit/jedit/pkg/jedit"
+)
+
+func main() {
+	filtersStr := []string{"severity >= 4"}
+	filePath := "yesterday_reduced.json"
+
+	// validates input and creates an instance of Logs
+	logs, err := jedit.ParseFile(filePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// validates input and creates an array of Filter instances
+	filters, err := jedit.ParseFilters(filtersStr)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// apply commands on the logs
+	logs.Add("urgency", "HIGH", false, filters)
+
+	logs.Print()
+}
+```
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
@@ -240,10 +296,10 @@ Use "jedit [command] --help" for more information about a command.
 ### Required for first release
 - [ ] Consume input stream from
     - [x] a terminal stdin
-    - [ ] a specified input source and output destination, such as reading from the network
+    - [ ] a specified input source
 - [ ] Output data to
     - [x] a terminal stdout
-    - [ ] a specified output destination, such as outputting in a file
+    - [ ] a specified output destination
 - [x] Provide a way to compare values (less or greater than, longer or shorter than, …) rather than just equality or difference. 
 - [x] Provide a way to apply operations only on objects only if they match a given predicate.
 - [x] Rejecting an object based on the value of a specific field. 

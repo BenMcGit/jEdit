@@ -18,7 +18,7 @@ type Logs struct {
 
 func (l *Logs) Print() error {
 	for _,log := range l.Data {
-		err := log.Print()
+		err := log.print()
 		if err != nil {
 			return err
 		}
@@ -51,7 +51,7 @@ func (l *Logs) Add(key string, value string, retain bool, filters []Filter) {
 	empty := isFiltersEmpty(filters)
 	for _,log := range l.Data {
 		if empty || checkLogMatchesFilters(log, filters) {
-			log.Add(key, value, retain)
+			log.add(key, value, retain)
 		}
 	}
 }
@@ -60,7 +60,7 @@ func (l *Logs) Remove(key string, filters []Filter) {
 	empty := isFiltersEmpty(filters)
 	for _,log := range l.Data {
 		if empty || checkLogMatchesFilters(log, filters) {
-			log.Remove(key)
+			log.remove(key)
 		}
 	}
 }
@@ -69,7 +69,7 @@ func (l *Logs) Modify(key string, newKey string, filters []Filter) {
 	empty := isFiltersEmpty(filters)
 	for _,log := range l.Data {
 		if empty || checkLogMatchesFilters(log, filters) {
-			log.Modify(key, newKey)
+			log.modify(key, newKey)
 		}
 	}
 }
