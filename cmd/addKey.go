@@ -5,8 +5,6 @@ Copyright © 2022 Benjamin McAdams mcadams.benj@gmail.com
 package cmd
 
 import (
-	"os"
-
 	"github.com/benmcgit/jedit/pkg/jedit"
 	"github.com/spf13/cobra"
 )
@@ -42,7 +40,12 @@ Examples:
 			return err
 		}
 
-		logs, err := jedit.ParseFile(os.Stdin.Name())
+		inputFilePath, err := getInputFilePath()
+		if err != nil {
+			return err
+		}
+		
+		logs, err := jedit.ParseFile(inputFilePath)
 		if err != nil {
 			return err
 		}

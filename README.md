@@ -244,12 +244,9 @@ Use "jedit [command] --help" for more information about a command.
 
 Please see the documentation for how to use jedit within your golang project [here](https://pkg.go.dev/github.com/benmcgit/jedit). 
 
-Here is an example of how it can be used
+IMPORTANT: jEdit must be consumed as a go module (required after go 1.17).You can create a go-module by running `go mod init <YOUR_MODULE_NAME>` (Please be sure to run `go get -v` to update your dependencies).
 
-IMPORTANT: To use jEdit it needs to be consumed as a go module (required after go 1.17).
-
-You can create a go-module by running `go mod init <YOUR_MODULE_NAME>` (Please be sure to run `go get -v` to update your dependencies).
-
+Example:
 ```go
 package main
 
