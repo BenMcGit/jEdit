@@ -244,3 +244,11 @@ func TestLogsPrint(t *testing.T) {
 		t.Errorf("Issue when printing logs: %q", err)
 	}
 }
+
+func TestLogsWriteToFile(t *testing.T) {
+	resetTestData()
+	err := logsAdvanced.WriteToFile("../../testdata/unit_test_output.json")
+	if err != nil {
+		t.Errorf("Issue when writing logs to file:  %q", err)
+	}
+}

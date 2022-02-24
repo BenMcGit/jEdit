@@ -17,7 +17,7 @@ func TestToString(t *testing.T) {
 	}
 }
 
-func TesttoBytes(t *testing.T) {
+func TestToBytes(t *testing.T) {
 	resetTestData()
 	expected := []byte("{\"key1\":\"value1\",\"key2\":\"value2\",\"key3\":\"value3\"}")
 	b, err := logSimple.toBytes()
