@@ -388,5 +388,6 @@ Project Link: [https://github.com/benmcgit/jedit](https://github.com/benmcgit/je
 ## Acknowledgments
 
 * [Hatchful by Shopify](https://hatchful.shopify.com/)
+* [My beautiful fiancée for her endless support :)](https://www.zola.com/wedding/benandchrista2022)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
