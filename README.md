@@ -76,7 +76,7 @@ Use the following instructions to learn how to clone the jEdit repository and to
 ### Prerequisites
 
 * [Install Golang](https://go.dev/doc/install)
-* Validate golang version is 1.7.2 or higher
+* Validate golang version is 1.17.2 or higher
   ```sh
   go version
   ```
@@ -89,15 +89,16 @@ Use the following instructions to learn how to clone the jEdit repository and to
    ```
 2. Build jEdit binary (in root directory)
    ```sh
-   ./scripts/build.sh
+   cd jedit && ./scripts/build.sh
    ```
 3. Validate the binary is available
    ```sh
    ./jedit --help
    ```
-4. Validate the binary is working (this should result in non-error output in your terminal). This script covers the following scenario:
-   * Add a new key value pair to only to records where "team" equal to "team-x"
-   * New key = "incident_id", New value = "6502" 
+4. Execute the test script. This script covers the following scenario:
+   * We have a list of json records (`./testdata/yesterday.json`) and want to add a new key-vale pair to them.
+   * We only want to add the key-value pair if the json record contains the key "team" and this key contains the value "team-x". 
+   * The new key is named "incident_id" and the value for that key will be "6502".
    ```sh
    ./scripts/test.sh
    ```
@@ -230,7 +231,7 @@ There are two ways a user can provide input.
 
 By default, jEdit will print its output to Stdout. Optianlly you can use the `--output` to create a new file and write to it. 
   ```sh
-  cat testdata/yesterday.json | ./jedit modifyKey ... --output my_output_file.json
+  ./jedit modifyKey ... --output my_output_file.json
   ```
 
 #### Need more help?
@@ -296,7 +297,11 @@ func main() {
 	// apply commands on the logs
 	logs.Add("urgency", "HIGH", false, filters)
 
+  // write to stdout
 	logs.Print()
+
+  // write to a file
+  logs.WriteToFile("example_output.json")
 }
 ```
 
@@ -310,6 +315,8 @@ func main() {
 - [ ] Preformance Improvements
     - [ ] Use concurrent go-threads to parse stdin
 - [ ] Allow user to OR filters together (opposed to ANDing them together)
+- [ ] Add support for multi-line JSON
+- [ ] Improved validation around supplying a non-JSON based file
 
 ### Required for first release
 - [x] Consume input stream from
@@ -335,11 +342,11 @@ See the [open issues](https://github.com/benmcgit/jedit/issues) for a full list 
 
 Besides creating a tool that worked functionally, I put a lot of thought into two non-functional requirements - Ease of use, preformace.
 
-To make sure jEdit was easy to use, I went through a few design iterations to determine a way I could use a similar filtering process across different commands. This led me to the design where I use a the same filter flag across the majority of my commands (Ex. `--filter "key == value"`). I hoped that this would allow for my users to learn the format once, and be able to apply the same logic across the query, addKey, removeKey, and modifyKey commands. The tradoff here is a good amount of validation for each filter. 
+To make sure jEdit was easy to use, I went through a few design iterations to determine a way I could use a similar filtering process across different commands. This led me to the design where I use a the same filter flag process across the entire application (Ex. `--filter "key == value"`). I hoped that this would allow for my users to learn the format once, and be able to apply the same logic across the query, addKey, removeKey, and modifyKey commands. The tradoff here is a good amount of validation for each filter. 
 
-One consideration I was debating on is whether I should AND all the filters together, or OR all of the filters together. I decided AND was more natural from a users perspective so I went with that. I think a cool new feature would be to allow for OR using a flag so the user can decide. I added this to the future improvements section. 
+One consideration I was debating on is whether I should AND all the filters together, or OR all of the filters together. I decided AND was more natural from a users perspective so I went with that. I think a cool new feature would be to allow for OR using a flag so the user can decide. I added this to the future improvements section as a nice-to-have. 
 
-As far as preformance, I believe this can be improved. My current logic is to first read in the JSON file and store each record as a type of "Log". After this, I continue to fullfill the customers requested command. There is an opportunity to filter or modify each record as its being read into momory. If preformance became an issue, this is where I would start investigating for potential improvements. 
+As far as preformance, I believe this can be improved. My current logic is to first read in the JSON file and store each record as a type of "Log". After this, I continue to fullfill the customers requested command based on the filters provided. There is an opportunity to filter or modify each record as its being read into momory. If preformance became an issue, this is where I would start investigating for potential improvements. 
 
 This project was my first experiance using a tool like [Cobra](https://github.com/spf13/cobra). This tool allowed me to build commands that contain arguments and flags with simplicity. Along with being easy, it saved me a lot of time when it came to generating the jEdit user manual (`./jedit --help`). The next time you build a commandline tool using Golang, I would highly recommend checking out Cobra. 
 

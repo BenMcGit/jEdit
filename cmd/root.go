@@ -7,6 +7,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/benmcgit/jedit/pkg/jedit"
 	"github.com/spf13/cobra"
@@ -46,6 +47,10 @@ func getInputFilePath() (string,error) {
 	if err != nil {
 		return "", err
 	} else if input != "" {
+		err = validateExtension(input)
+		if err != nil {
+			return "", err
+		}
 		return input, nil
 	} else if (stat.Mode() & os.ModeCharDevice) == 0 {
 		// data is being piped to stdin
@@ -54,6 +59,12 @@ func getInputFilePath() (string,error) {
 	return "", fmt.Errorf("No input file found. Please provide input using Stdin or the --input flag.")
 }
 
+func validateExtension(fileName string) error {
+	if !strings.Contains(strings.ToLower(fileName), "json") {
+		return fmt.Errorf("Incorrect input file format. Please supply a file with a *.json extension. File name recieved: %s", fileName)
+	}
+	return nil
+}
 func writeToOutput(logs jedit.Logs) error {
 	output, err := rootCmd.Flags().GetString("output")
 	if err != nil {
